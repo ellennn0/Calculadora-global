@@ -1,0 +1,160 @@
+from IPython.display import display, HTML
+
+# HTML e Javascript
+html_code = """
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Médias por Matéria</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .container h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        input[type="number"], select {
+            width: calc(100% - 20px);
+            padding: 8px;
+            margin: 8px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .resultado {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Calculadora de Média Anual</h2>
+
+        <!-- Gerador de campos para cada matéria -->
+        <div id="materias-container"></div>
+
+        <button onclick="calcularMedias()">Calcular Médias</button>
+        <div id="resultado" class="resultado"></div>
+    </div>
+
+    <script>
+        // Lista de matérias
+        const materias = [
+            "Educação Física", "Inglês", "Português", "Artes", "Biologia", "Física", 
+            "Química", "Ciências", "EXP", "Geografia", "História", "Sociologia", 
+            "Filosofia", "Matemática", "Espanhol", "Projeto de Vida"
+        ];
+
+        // Adiciona campos de entrada para cada matéria
+        const materiasContainer = document.getElementById('materias-container');
+        materias.forEach(materia => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <label><strong>${materia}</strong></label><br>
+                <input type="number" placeholder="Nota 1º Trimestre" min="0" max="10" step="0.1" class="nota" data-materia="${materia}" data-trimestre="1">
+                <input type="number" placeholder="Nota 2º Trimestre" min="0" max="10" step="0.1" class="nota" data-materia="${materia}" data-trimestre="2">
+            `;
+            materiasContainer.appendChild(div);
+        });
+
+        // Função para calcular a média anual de cada matéria e a média global
+        function calcularMedias() {
+            const notas = document.querySelectorAll('.nota');
+            const resultado = document.getElementById('resultado');
+            resultado.innerHTML = '';
+
+            let pontosTotais = 0;
+            let pontosNecessarios = 0;
+            let materiasCompletas = 0;
+            let mediaGlobal = 0;
+
+            materias.forEach(materia => {
+                let somaNotas = 0;
+                let contadorNotas = 0;
+                
+                // Somar as notas para a matéria
+                notas.forEach(notaInput => {
+                    if (notaInput.dataset.materia === materia) {
+                        const nota = parseFloat(notaInput.value);
+                        if (!isNaN(nota) && nota >= 0 && nota <= 10) {
+                            somaNotas += nota;
+                            contadorNotas++;
+                            // Atualiza a cor do campo de entrada com base no valor da nota
+                            if (nota < 6) {
+                                notaInput.style.backgroundColor = 'rgb(255,99,71)'; // Vermelho para notas de 1 a 5
+                            } else if (nota === 6) {
+                                notaInput.style.backgroundColor = 'rgb(240,230,140)'; // Amarelo claro para nota 6
+                            } else if (nota >= 7) {
+                                notaInput.style.backgroundColor = 'rgb(173,255,47)'; // Verde claro para notas 7 a 10
+                            }
+                        }
+                    }
+                });
+
+                if (contadorNotas === 2) {
+                    const media = somaNotas / 2;
+                    pontosTotais += media;
+                    const pontosRestantes = 18 - somaNotas;
+                    resultado.innerHTML += `<p>${materia}: Média = ${media.toFixed(1)} - Você precisa tirar ${pontosRestantes.toFixed(1)} no 3º Trimestre para alcançar 18 pontos.</p>`;
+                    materiasCompletas++;
+                    mediaGlobal += media;  // Somando a média de cada matéria para calcular a média global
+                } else {
+                    resultado.innerHTML += `<p>${materia}: Notas incompletas</p>`;
+                }
+            });
+
+            // Calcular a média global
+            mediaGlobal = mediaGlobal / materiasCompletas;
+            resultado.innerHTML += `<p><strong>Média Global (2 Trimestres): </strong>${mediaGlobal.toFixed(1)}</p>`;
+
+            // Calcular o total de pontos que o aluno precisa no 3º Trimestre
+            const pontosRestantesParaTotalizar = 288 - pontosTotais;
+            resultado.innerHTML += `<p><strong>Pontos totais já somados: </strong>${pontosTotais.toFixed(1)}</p>`;
+            resultado.innerHTML += `<p><strong>Pontos necessários no 3º Trimestre para alcançar 288: </strong>${pontosRestantesParaTotalizar.toFixed(1)}</p>`;
+
+            // Calcular a quantidade de pontos faltando divididos igualmente por 16 matérias
+            const pontosPorMateria = pontosRestantesParaTotalizar / 16;
+            resultado.innerHTML += `<p><strong>Pontos necessários por matéria no 3º Trimestre para alcançar 288: </strong>${pontosPorMateria.toFixed(1)}</p>`;
+        }
+    </script>
+</body>
+</html>
+"""
+
+# Exibir HTML no Jupyter Notebook
+display(HTML(html_code))
