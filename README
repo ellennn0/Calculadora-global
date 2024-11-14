@@ -1,0 +1,34 @@
+# Calculadora de Médias por Matéria
+
+Este projeto é uma calculadora de médias anual desenvolvida em HTML, CSS e JavaScript. Permite que os usuários insiram notas de duas etapas (1º e 2º trimestres) para diversas matérias e calcula a média semestral de cada matéria e a média geral. Além disso, calcula quantos pontos o aluno precisaria obter no 3º trimestre para alcançar um total de 18 pontos ao longo dos três trimestres.
+
+## Funcionalidades
+
+- **Entrada de Notas**: O usuário pode inserir notas para o 1º e 2º trimestres em 16 matérias diferentes.
+- **Cálculo de Média por Matéria**: A calculadora exibe a média de cada matéria com base nas notas fornecidas e indica quantos pontos faltam para atingir o objetivo de 18 pontos.
+- **Cálculo de Média Global**: Calcula a média global considerando as médias de todas as matérias.
+- **Estilo Dinâmico para Notas**: Os campos de entrada mudam de cor com base na nota inserida:
+  - Vermelho para notas de 1 a 5
+  - Amarelo para nota 6
+  - Verde para notas de 7 a 10
+
+## Estrutura do Código
+
+- HTML: Estrutura da calculadora com campos de entrada para cada matéria.
+- CSS: Estilo da interface para melhorar a usabilidade.
+- JavaScript: Lógica para calcular médias, pontos necessários e manipulação dos elementos de entrada.
+
+## Como Usar
+
+1. Insira as notas de cada matéria para o 1º e 2º trimestres.
+2. Clique no botão "Calcular Médias" para ver a média de cada matéria e a média global.
+3. Veja também quantos pontos são necessários para atingir o total de 18 pontos em cada matéria.
+
+## Requisitos
+
+- IPython e Jupyter Notebook para rodar o código em um ambiente interativo.
+  
+Para executar o código no Jupyter Notebook, utilize o seguinte comando no terminal para instalar o IPython:
+
+```bash
+pip install ipython
