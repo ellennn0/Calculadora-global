@@ -1,0 +1,19 @@
+
+### .gitignore
+
+```plaintext
+# Arquivos de sistema
+*.DS_Store
+*.log
+
+# Arquivos do Jupyter Notebook
+.ipynb_checkpoints/
+
+# Arquivos Python Bytecode
+*.pyc
+__pycache__/
+
+# Ambiente virtual
+env/
+venv/
+.venv/
